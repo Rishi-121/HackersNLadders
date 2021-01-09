@@ -1,5 +1,7 @@
+import serial
 import pygame
 import math
+from time import sleep
 
 black=(10,10,10)
 white=(250,250,250)
@@ -12,6 +14,7 @@ grey=(50,50,50)
 yellow=(150,150,0)
 purple=(43,3,132)
 b_purple=(60,0,190)
+si = serial.Serial('COM3',baudrate=9600,timeout=1)
 
 def get_coord(pos, index):
     x_val = pos%20
@@ -97,9 +100,11 @@ class Game():
         elif final_pos in SNAKES.keys():
             print(f'Player {str(player_id+1)} lands on snake!')
             self.player_states[player_id]["pos"] = SNAKES[final_pos]
+            si.write('7'.encode())
         elif final_pos in LADDERS.keys():
             print(f'Player {str(player_id+1)} lands on ladder!!')
             self.player_states[player_id]["pos"] = LADDERS[final_pos]
+            si.write('6'.encode())
         else:
             self.player_states[player_id]["pos"] = final_pos
 
@@ -123,7 +128,14 @@ def main():
                         Quit()
         
         print(f'Player {str(CURR_MOVE+1)}: ')
-        value = input()
+        si.write('1'.encode())
+        while True:
+            value = si.readline().decode('ascii')
+            if value != '':
+                value = int(value)
+                if value > 0 and value < 7:
+                    print(value)
+                    break
         if value=='q':
             Quit()
         g.make_move(CURR_MOVE, value)
