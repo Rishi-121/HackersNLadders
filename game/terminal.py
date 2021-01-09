@@ -1,4 +1,4 @@
-import serial
+# import serial
 import pygame
 import math
 from time import sleep
@@ -14,7 +14,7 @@ grey=(50,50,50)
 yellow=(150,150,0)
 purple=(43,3,132)
 b_purple=(60,0,190)
-si = serial.Serial('COM3',baudrate=9600,timeout=1)
+# si = serial.Serial('COM3',baudrate=9600,timeout=1)
 
 def get_coord(pos, index):
     x_val = pos%20
@@ -49,7 +49,7 @@ class Game():
     def __init__(self):
         pygame.init()
         w=900
-        h=900
+        h=930
 
         # icon=pygame.image.load("icon.jpg")
         self.GD=pygame.display.set_mode((w,h))
@@ -61,7 +61,7 @@ class Game():
         self.GD.blit(self.board, (45, 0))
         self.dices = [None]
         self.dices.extend([pygame.image.load(f"assets/dices/dice{str(index)}.png") for index in range(1, 7)])
-        
+
         self.player_states = [
             {"pos": 1, "image": pygame.image.load("assets/gotis/redgoti.png")},
             {"pos": 1, "image": pygame.image.load("assets/gotis/bluegoti.png")},
@@ -103,11 +103,11 @@ class Game():
         elif final_pos in SNAKES.keys():
             print(f'Player {str(player_id+1)} lands on snake!')
             self.player_states[player_id]["pos"] = SNAKES[final_pos]
-            si.write('7'.encode())
+            # si.write('7'.encode())
         elif final_pos in LADDERS.keys():
             print(f'Player {str(player_id+1)} lands on ladder!!')
             self.player_states[player_id]["pos"] = LADDERS[final_pos]
-            si.write('6'.encode())
+            # si.write('6'.encode())
         else:
             self.player_states[player_id]["pos"] = final_pos
 
@@ -117,17 +117,17 @@ class Game():
         text_display = f'Player {str(player_id+1)} WON !!'
         text = font.render(text_display, True, black)
         text_rect = text.get_rect()
-        text_rect.center = (450, 860)
+        text_rect.center = (450, 875)
         self.GD.blit(text, text_rect)
         pygame.display.update()
-    
+
     def display_turn(self, player_id):
         self.update_display()
         font = pygame.font.Font('freesansbold.ttf', 25)
         text_display = f'Player {str(player_id+1)}\'s turn now'
         text = font.render(text_display, True, black)
         text_rect = text.get_rect()
-        text_rect.center = (450, 860)
+        text_rect.center = (450, 875)
         self.GD.blit(text, text_rect)
         pygame.display.update()
  
@@ -150,22 +150,23 @@ def main():
         
         g.display_turn(CURR_MOVE)
         print(f'Player {str(CURR_MOVE+1)}\'s turn : ')
-        si.write('1'.encode())
-        while True:
-            value = si.readline().decode('ascii')
-            if value != '':
-                value = int(value)
-                if value > 0 and value < 7:
-                    print(value)
-                    break
+        # si.write('1'.encode())
+        # while True:
+        #     value = si.readline().decode('ascii')
+        #     if value != '':
+        #         value = int(value)
+        #         if value > 0 and value < 7:
+        #             print(value)
+        #             break
+
+        value = input()
         if value=='q':
             Quit()
         g.make_move(CURR_MOVE, value)
         g.display_player(CURR_MOVE, value)
         pygame.display.update()
-
         CURR_MOVE = (CURR_MOVE+1)%PLAYERS
-        sleep(2) # to display what the player just threw
+        sleep(3) # to display what the player just threw
 
 if __name__ == "__main__":
     main() 
