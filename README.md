@@ -1,5 +1,7 @@
 # SnakesNLadders
-
+<br/>
+![Main image](Image.png)
+<br/>
 ~~~
 $ git clone https://github.com/UltimateRoman/HackersNLadders
 $ cd HackersNLadders/game
