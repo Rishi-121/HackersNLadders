@@ -30,9 +30,7 @@ void loop() {
         int no = random(1, 7);
         Serial.println(no);
         u8g2.setCursor(44,30);
-        u8g2.print(String(no));
-        delay(2000);
-        u8g2.clear(); 
+        u8g2.print(String(no)); 
         break;
       } 
     }
@@ -45,6 +43,13 @@ void loop() {
   else if(in == '7') {
     tone(buzz, 300);
     delay(2000);
+    noTone(buzz);
+  }
+  else if(in == '8') {
+    digitalWrite(led, HIGH);
+    tone(buzz, 300);
+    delay(2000);
+    digitalWrite(led, LOW);
     noTone(buzz);
   }
   delay(100);
