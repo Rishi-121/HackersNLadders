@@ -115,6 +115,7 @@ class Game():
         self.update_display()
         font = pygame.font.Font('freesansbold.ttf', 25)
         text_display = f'Player {str(player_id+1)} WON !!'
+        si.write('8'.encode())
         text = font.render(text_display, True, black)
         text_rect = text.get_rect()
         text_rect.center = (450, 860)
